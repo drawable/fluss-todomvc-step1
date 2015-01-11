@@ -111,7 +111,7 @@ export class CompleteAll extends Plugins.BasePlugin {
 
     getMemento(container:Application.Application, action:number):Dispatcher.IMemento {
         //Use the immutable here: Map on the actual store will create an reactive mapped store
-        // That would update with the todos-store holding only trues after the action is completed.
+        //that would update with the todos-store holding only trues after the action is completed.
         var data = container.todos.immutable.map(function(todo) {
             return todo.completed;
         });
@@ -136,7 +136,7 @@ export class UncompleteAll extends Plugins.BasePlugin {
 
     getMemento(container:Application.Application, action:number):Dispatcher.IMemento {
         //Use the immutable here: Map on the actual store will create an reactive mapped store
-        // That would update with the todos-store holding only trues after the action is completed.
+        //that would update with the todos-store holding only falses after the action is completed.
         var data = container.todos.immutable.map(function(todo) {
             return todo.completed;
         });

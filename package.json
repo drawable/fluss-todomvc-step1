@@ -1,0 +1,23 @@
+{
+  "name": "Fluss_Todos_1",
+  "version": "0.1.0",
+  "description": "Example implementation of the TodoMVC app using fluss",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "fluss",
+    "flux",
+    "reactive",
+    "React"
+  ],
+  "author": "Stephan Smola",
+  "license": "GFDL",
+  "dependencies": {
+    "domready": "^1.0.7",
+    "fluss": "^0.3.1",
+    "react": "^0.12.2",
+    "requirejs": "^2.1.15",
+    "todomvc-common": "^0.3.1"
+  }
+}

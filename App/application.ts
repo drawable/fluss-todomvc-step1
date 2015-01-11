@@ -18,9 +18,18 @@ import TodoList = require("ui/todoList");
 import NewTodo = require("ui/newTodo");
 import CheckAll = require("ui/checkAll");
 import TodoCount = require("ui/todoCount");
+import UndoButton = require("ui/undoButton");
 
 import BaseActions = require("fluss/baseActions");
 
+
+/**
+ * The application objects holds the store and is the container
+ * for all the plugins.
+ *
+ * Upon execution plugins are given this object, so they have
+ * access to the store.
+ */
 export class Application extends Plugins.PluginContainer {
 
     todos:Store.IArrayStore;
@@ -33,6 +42,11 @@ export class Application extends Plugins.PluginContainer {
     }
 }
 
+/**
+ * This is a simple plugin that protocols the actions
+ * out to the console. It is used as an example for a
+ * plugin that is invoked on the __ANY__-action.
+ */
 class Protocol extends Plugins.BasePlugin {
 
     run(container:Application, action:number, p1?:any) {
@@ -60,6 +74,14 @@ class Protocol extends Plugins.BasePlugin {
     }
 }
 
+
+/**
+ * Create out application object.
+ * This instantiates our application and attaches all plugins
+ * to it by wrapping.
+ *
+ * @returns {Application}
+ */
 function createApplication() {
     var app = new Application();
 
@@ -70,11 +92,16 @@ function createApplication() {
     app.wrap(Actions.ACTIONS.COMPLETE_ALL, new TodoPlugins.CompleteAll());
     app.wrap(Actions.ACTIONS.UNCOMPLETE_ALL, new TodoPlugins.UncompleteAll());
 
-
+    // Wrap a plugin for any action.
     app.wrap(BaseActions.ACTIONS.__ANY__, new Protocol());
     return app;
 }
 
+
+/**
+ * Initialize the app. Creates the application object and renders
+ * the UI using react.
+ */
 export function init() {
     var container = document.getElementById("application");
     var app = createApplication();
@@ -84,8 +111,9 @@ export function init() {
     // Always pass immutable stores to the frontend to prevent disruption of the data flow.
     React.render(
         React.DOM.section({ id: "todoapp"},
-        React.DOM.header({id: "header"},
+            React.DOM.header({id: "header"},
             React.DOM.h1({}, "todos")),
+
             React.createElement(NewTodo.NewTodo, {}),
             React.DOM.section({ id: "main"},
                 React.createElement(CheckAll.CheckAll, { todos: app.todos.immutable }),
@@ -100,4 +128,10 @@ export function init() {
                 } ))
         )
         , container);
+
+        container = document.getElementById("additional");
+    React.render(React.DOM.section({},
+            React.createElement(UndoButton.Button, {})
+        ),
+        container)
 }

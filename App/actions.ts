@@ -7,6 +7,9 @@
 import Dispatcher = require("fluss/dispatcher");
 import BaseActions = require("fluss/baseActions");
 
+/**
+ * Decalre all actions in an enum.
+ */
 export enum ACTIONS {
     ADD_TODO,
     COMPLETE_TODO,

@@ -61,6 +61,16 @@ export class UncompleteTodo extends Plugins.BasePlugin {
         container.todos.item(todo).completed = false;
     }
 
+    /**
+     * There are two kinds of mementos. The ones that hold the information neccessary to
+     * reproduce the previous state and the ones that contain an action that reproduces the
+     * previous state. We'll use the latter here. The restoreFromMemento-method is not needed
+     * in this case.
+     * @param container
+     * @param action
+     * @param todo
+     * @returns {any}
+     */
     getMemento(container:Application.Application, action:number, todo:any):Dispatcher.IMemento {
         return Dispatcher.createUndoAction(Actions.ACTIONS.COMPLETE_TODO, todo);
     }
@@ -100,7 +110,8 @@ export class CompleteAll extends Plugins.BasePlugin {
     }
 
     getMemento(container:Application.Application, action:number):Dispatcher.IMemento {
-        //We use the immutable so data will be a simple array
+        //Use the immutable here: Map on the actual store will create an reactive mapped store
+        // That would update with the todos-store holding only trues after the action is completed.
         var data = container.todos.immutable.map(function(todo) {
             return todo.completed;
         });
@@ -124,7 +135,8 @@ export class UncompleteAll extends Plugins.BasePlugin {
     }
 
     getMemento(container:Application.Application, action:number):Dispatcher.IMemento {
-        //We use the immutable so data will be a simple array
+        //Use the immutable here: Map on the actual store will create an reactive mapped store
+        // That would update with the todos-store holding only trues after the action is completed.
         var data = container.todos.immutable.map(function(todo) {
             return todo.completed;
         });

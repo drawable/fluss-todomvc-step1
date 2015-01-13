@@ -9,6 +9,7 @@
 import Fluss = require("fluss");
 
 import Application  = require("../application");
+import Actions      = require("../actions");
 
 var todoIds = 1000;
 
@@ -51,7 +52,7 @@ export class CompleteTodo extends Fluss.Plugins.BasePlugin {
     }
 
     getMemento(container:Application.Application, action:number, todo:any):Fluss.Dispatcher.IMemento {
-        return Dispatcher.createUndoAction(Actions.ACTIONS.UNCOMPLETE_TODO, todo);
+        return Fluss.Dispatcher.createUndoAction(Actions.ACTIONS.UNCOMPLETE_TODO, todo);
     }
 
 }
@@ -73,7 +74,7 @@ export class UncompleteTodo extends Fluss.Plugins.BasePlugin {
      * @returns {any}
      */
     getMemento(container:Application.Application, action:number, todo:any):Fluss.Dispatcher.IMemento {
-        return Dispatcher.createUndoAction(Actions.ACTIONS.COMPLETE_TODO, todo);
+        return Fluss.Dispatcher.createUndoAction(Actions.ACTIONS.COMPLETE_TODO, todo);
     }
 
 }
@@ -91,7 +92,7 @@ export class RemoveTodo extends Fluss.Plugins.BasePlugin {
             id: todo.id
         }
 
-        return Dispatcher.createMemento(null, data);
+        return Fluss.Dispatcher.createMemento(null, data);
     }
 
     restoreFromMemento(container:Application.Application, memento:Fluss.Dispatcher.IMemento) {

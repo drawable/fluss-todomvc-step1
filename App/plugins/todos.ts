@@ -96,7 +96,7 @@ export class RemoveTodo extends Fluss.Plugins.BasePlugin {
     }
 
     restoreFromMemento(container:Application.Application, memento:Fluss.Dispatcher.IMemento) {
-        container.todos.splice(memento.data.index, 1,
+        container.todos.splice(memento.data.index, 0,
             Fluss.Store.record({ id: memento.data.id,
                            title: memento.data.title,
                            completed: memento.data.completed }));

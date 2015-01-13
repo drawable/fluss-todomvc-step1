@@ -1,11 +1,16 @@
+/// <reference path="../node_modules/fluss/fluss.d.ts" />
+
 /**
  * Created by Stephan on 04.01.2015.
  */
 
 "use strict";
 
-import Dispatcher = require("fluss/dispatcher");
-import BaseActions = require("fluss/baseActions");
+
+import Fluss = require("fluss");
+
+var Dispatcher = Fluss.Dispatcher;
+var BaseActions = Fluss.BaseActions;
 
 /**
  * Decalre all actions in an enum.

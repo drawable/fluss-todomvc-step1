@@ -1,4 +1,5 @@
 /// <reference path="../../types/react.d.ts" />
+/// <reference path="../../node_modules/fluss/fluss.d.ts" />
 
 /**
  * Created by Stephan on 04.01.2015.
@@ -7,15 +8,15 @@
 "use strict";
 
 import React = require("react");
-
+import Fluss = require("fluss");
 
 import Actions = require("../actions");
-import Mixins = require("fluss/reactMixins")
+
 
 
 export var TodoList = React.createClass({
 
-    mixins: [Mixins.componentLifecycle],
+    mixins: [Fluss.ReactMixins.componentLifecycle],
 
     componentDidMount: function() {
         var that = this;
@@ -40,9 +41,10 @@ export var TodoList = React.createClass({
 });
 
 
+
 var Todo = React.createClass({
 
-    mixins: [Mixins.componentLifecycle],
+    mixins: [Fluss.ReactMixins.componentLifecycle],
 
     handleToggle: function() {
         if (!this.props.todo.completed) {

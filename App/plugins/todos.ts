@@ -1,24 +1,25 @@
+/// <reference path="../../node_modules/fluss/fluss.d.ts" />
+
 /**
  * Created by Stephan on 04.01.2015.
  */
 
 "use strict";
 
-import Plugins      = require("fluss/plugins");
-import Store        = require("fluss/store");
+import Fluss = require("fluss");
+
 import Application  = require("../application");
-import Dispatcher   = require("fluss/dispatcher");
-import Actions      = require("../actions");
 
 var todoIds = 1000;
+
 
 /**
  * Plugin for adding a todo.
  */
-export class AddTodo extends Plugins.BasePlugin {
+export class AddTodo extends Fluss.Plugins.BasePlugin {
 
     run(container:Application.Application, action:number, title:string) {
-        container.todos.push(Store.record({id: todoIds++, title: title, completed: false}));
+        container.todos.push(Fluss.Store.record({id: todoIds++, title: title, completed: false}));
     }
 
     /**
@@ -29,8 +30,8 @@ export class AddTodo extends Plugins.BasePlugin {
      * @param title
      * @returns {any}
      */
-    getMemento(container:Application.Application, action:number, title:string):Dispatcher.IMemento {
-        return Dispatcher.createMemento(null, { index: container.todos.length })
+    getMemento(container:Application.Application, action:number, title:string):Fluss.Dispatcher.IMemento {
+        return Fluss.Dispatcher.createMemento(null, { index: container.todos.length })
     }
 
     /**
@@ -38,24 +39,24 @@ export class AddTodo extends Plugins.BasePlugin {
      * @param container
      * @param memento
      */
-    restoreFromMemento(container:Application.Application, memento:Dispatcher.IMemento) {
+    restoreFromMemento(container:Application.Application, memento:Fluss.Dispatcher.IMemento) {
         container.todos.remove(memento.data.index, 1);
     }
 }
 
-export class CompleteTodo extends Plugins.BasePlugin {
+export class CompleteTodo extends Fluss.Plugins.BasePlugin {
     run(container:Application.Application, action:number, todo:any) {
         // the given todo may be immutable
         container.todos.item(todo).completed = true;
     }
 
-    getMemento(container:Application.Application, action:number, todo:any):Dispatcher.IMemento {
+    getMemento(container:Application.Application, action:number, todo:any):Fluss.Dispatcher.IMemento {
         return Dispatcher.createUndoAction(Actions.ACTIONS.UNCOMPLETE_TODO, todo);
     }
 
 }
 
-export class UncompleteTodo extends Plugins.BasePlugin {
+export class UncompleteTodo extends Fluss.Plugins.BasePlugin {
     run(container:Application.Application, action:number, todo:any) {
         // the given todo may be immutable
         container.todos.item(todo).completed = false;
@@ -71,18 +72,18 @@ export class UncompleteTodo extends Plugins.BasePlugin {
      * @param todo
      * @returns {any}
      */
-    getMemento(container:Application.Application, action:number, todo:any):Dispatcher.IMemento {
+    getMemento(container:Application.Application, action:number, todo:any):Fluss.Dispatcher.IMemento {
         return Dispatcher.createUndoAction(Actions.ACTIONS.COMPLETE_TODO, todo);
     }
 
 }
 
-export class RemoveTodo extends Plugins.BasePlugin {
+export class RemoveTodo extends Fluss.Plugins.BasePlugin {
     run(container:Application.Application, action:number, todo:any) {
         container.todos.splice(container.todos.indexOf(todo), 1);
     }
 
-    getMemento(container:Application.Application, action:number, todo:any):Dispatcher.IMemento {
+    getMemento(container:Application.Application, action:number, todo:any):Fluss.Dispatcher.IMemento {
         var data = {
             index: container.todos.indexOf(todo),
             title: todo.title,
@@ -93,33 +94,33 @@ export class RemoveTodo extends Plugins.BasePlugin {
         return Dispatcher.createMemento(null, data);
     }
 
-    restoreFromMemento(container:Application.Application, memento:Dispatcher.IMemento) {
-        container.todos.splice(meneto.data.index,
-            Store.record({ id: memento.data.id,
+    restoreFromMemento(container:Application.Application, memento:Fluss.Dispatcher.IMemento) {
+        container.todos.splice(memento.data.index,
+            Fluss.Store.record({ id: memento.data.id,
                            title: memento.data.title,
                            completed: memento.data.completed }));
     }
 
 }
 
-export class CompleteAll extends Plugins.BasePlugin {
+export class CompleteAll extends Fluss.Plugins.BasePlugin {
     run(container:Application.Application, action:number) {
         container.todos.forEach(function(todo) {
             todo.completed = true;
         })
     }
 
-    getMemento(container:Application.Application, action:number):Dispatcher.IMemento {
+    getMemento(container:Application.Application, action:number):Fluss.Dispatcher.IMemento {
         //Use the immutable here: Map on the actual store will create an reactive mapped store
         //that would update with the todos-store holding only trues after the action is completed.
         var data = container.todos.immutable.map(function(todo) {
             return todo.completed;
         });
 
-        return Dispatcher.createMemento(null, data);
+        return Fluss.Dispatcher.createMemento(null, data);
     }
 
-    restoreFromMemento(container:Application.Application, memento:Dispatcher.IMemento) {
+    restoreFromMemento(container:Application.Application, memento:Fluss.Dispatcher.IMemento) {
         memento.data.forEach(function(completed, index) {
             container.todos[index].completed = completed;
         })
@@ -127,14 +128,14 @@ export class CompleteAll extends Plugins.BasePlugin {
 
 }
 
-export class UncompleteAll extends Plugins.BasePlugin {
+export class UncompleteAll extends Fluss.Plugins.BasePlugin {
     run(container:Application.Application, action:number) {
         container.todos.forEach(function(todo) {
             todo.completed = false;
         })
     }
 
-    getMemento(container:Application.Application, action:number):Dispatcher.IMemento {
+    getMemento(container:Application.Application, action:number):Fluss.Dispatcher.IMemento {
         //Use the immutable here: Map on the actual store will create an reactive mapped store
         //that would update with the todos-store holding only falses after the action is completed.
         var data = container.todos.immutable.map(function(todo) {
@@ -142,7 +143,7 @@ export class UncompleteAll extends Plugins.BasePlugin {
         });
     }
 
-    restoreFromMemento(container:Application.Application, memento:Dispatcher.IMemento) {
+    restoreFromMemento(container:Application.Application, memento:Fluss.Dispatcher.IMemento) {
         memento.data.forEach(function(completed, index) {
             container.todos[index].completed = completed;
         })

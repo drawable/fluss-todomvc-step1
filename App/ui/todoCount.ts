@@ -1,4 +1,5 @@
 /// <reference path="../../types/react.d.ts" />
+/// <reference path="../../node_modules/fluss/fluss.d.ts" />
 
 /**
  * Created by Stephan on 09.01.2015.
@@ -6,13 +7,13 @@
 
 "use strict";
 
-import React = require("react");
 
-import Mixins = require("fluss/reactMixins")
+import React = require("react");
+import Fluss = require("fluss");
 
 export var TodoCount = React.createClass({
 
-    mixins: [Mixins.componentLifecycle],
+    mixins: [Fluss.ReactMixins.componentLifecycle],
 
     componentDidMount: function() {
         var that = this;

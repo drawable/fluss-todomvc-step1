@@ -1,19 +1,23 @@
 /// <reference path="../../types/react.d.ts" />
+/// <reference path="../../node_modules/fluss/fluss.d.ts" />
 
 /**
  * Created by Stephan on 04.01.2015.
  */
 
+
 "use strict";
 import React = require("react");
 
 import Actions = require("../actions");
-import Mixins = require("fluss/reactMixins")
+
+import Fluss = require("fluss");
+
 
 
 export var CheckAll = React.createClass({
 
-    mixins: [Mixins.componentLifecycle],
+    mixins: [Fluss.ReactMixins.componentLifecycle],
 
     calculateAllComplete: function() {
         return this.props.todos.every(function(todo) {

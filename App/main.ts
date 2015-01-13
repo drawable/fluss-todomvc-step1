@@ -9,10 +9,11 @@ require.config({
     baseUrl: "./",
     paths: {
         "libs": "../" + "node_modules",
-        "fluss": "../node_modules/fluss/amd/" + "fluss",
-        "react": "../node_modules/react/" + "dist/react"
+        "fluss": "../node_modules/fluss/amd/fluss",
+        "react": "../node_modules/react/dist/react"
     }
 });
+
 
 define(["libs/domready/ready", "application"], function(ready, application) {
 

@@ -1,4 +1,5 @@
 /// <reference path="../types/react.d.ts" />
+/// <reference path="../node_modules/fluss/fluss.d.ts" />
 
 /**
  * Created by Stephan on 04.01.2015.
@@ -8,8 +9,7 @@
 
 import React = require("react");
 
-import Plugins = require("fluss/plugins");
-import Store = require("fluss/store");
+import Fluss = require("fluss");
 
 import Actions = require("actions");
 import TodoPlugins = require("plugins/todos");
@@ -20,7 +20,7 @@ import CheckAll = require("ui/checkAll");
 import TodoCount = require("ui/todoCount");
 import UndoButton = require("ui/undoButton");
 
-import BaseActions = require("fluss/baseActions");
+var BaseActions = Fluss.BaseActions;
 
 
 /**
@@ -30,14 +30,14 @@ import BaseActions = require("fluss/baseActions");
  * Upon execution plugins are given this object, so they have
  * access to the store.
  */
-export class Application extends Plugins.PluginContainer {
+export class Application extends Fluss.Plugins.PluginContainer {
 
-    todos:Store.IArrayStore;
+    todos:Fluss.Store.IArrayStore;
 
     constructor() {
         super();
 
-        this.todos = Store.array();
+        this.todos = Fluss.Store.array();
 
     }
 }
@@ -47,7 +47,7 @@ export class Application extends Plugins.PluginContainer {
  * out to the console. It is used as an example for a
  * plugin that is invoked on the __ANY__-action.
  */
-class Protocol extends Plugins.BasePlugin {
+class Protocol extends Fluss.Plugins.BasePlugin {
 
     run(container:Application, action:number, p1?:any) {
         var t;

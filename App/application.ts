@@ -20,11 +20,9 @@ import CheckAll = require("ui/checkAll");
 import TodoCount = require("ui/todoCount");
 import UndoButton = require("ui/undoButton");
 
-var BaseActions = Fluss.BaseActions;
-
 
 /**
- * The application objects holds the store and is the container
+ * The application object holds the store and is the container
  * for all the plugins.
  *
  * Upon execution plugins are given this object, so they have

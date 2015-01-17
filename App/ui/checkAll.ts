@@ -35,10 +35,8 @@ export var CheckAll = React.createClass({
 
     componentDidMount: function() {
         var that = this;
-        console.log("component did mount");
         this.props.todos.updates
             .filter(function(update) {
-            console.log("filter");
             return update.item === "completed";
         }).forEach(function() {
             that.forceUpdate();

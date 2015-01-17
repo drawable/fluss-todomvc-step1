@@ -8,8 +8,8 @@
 
 import Fluss = require("fluss");
 
-import Application  = require("../application");
-import Actions      = require("../actions");
+import Application  = require("app/application");
+import Actions      = require("app/actions");
 
 var todoIds = 1000;
 
@@ -114,7 +114,7 @@ export class CompleteAll extends Fluss.Plugins.BasePlugin {
     getMemento(container:Application.Application, action:number):Fluss.Dispatcher.IMemento {
         //Use the immutable here: Map on the actual store will create an reactive mapped store
         //that would update with the todos-store holding only trues after the action is completed.
-        var data = container.todos.immutable.map(function(todo) {
+        var data = container.todos.immutable["map"](function(todo) {
             return todo.completed;
         });
 
@@ -139,9 +139,11 @@ export class UncompleteAll extends Fluss.Plugins.BasePlugin {
     getMemento(container:Application.Application, action:number):Fluss.Dispatcher.IMemento {
         //Use the immutable here: Map on the actual store will create an reactive mapped store
         //that would update with the todos-store holding only falses after the action is completed.
-        var data = container.todos.immutable.map(function(todo) {
+        var data = container.todos.immutable["map"](function(todo) {
             return todo.completed;
         });
+
+        return Fluss.Dispatcher.createMemento(null, data);
     }
 
     restoreFromMemento(container:Application.Application, memento:Fluss.Dispatcher.IMemento) {

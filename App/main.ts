@@ -8,14 +8,14 @@
 require.config({
     baseUrl: "./",
     paths: {
-        "libs": "../" + "node_modules",
-        "fluss": "../node_modules/fluss/amd/fluss",
-        "react": "../node_modules/react/dist/react"
+        app: "./",
+        libs: "../" + "node_modules",
+        react: "../node_modules/react/dist/react",
+        fluss: "../node_modules/fluss/amd/index"
     }
 });
 
-
-define(["libs/domready/ready", "application"], function(ready, application) {
+define(["libs/domready/ready", "app/application"], function(ready, application) {
 
     ready(function() {
         application.init();

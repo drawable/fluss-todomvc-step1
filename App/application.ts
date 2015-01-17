@@ -11,14 +11,15 @@ import React = require("react");
 
 import Fluss = require("fluss");
 
-import Actions = require("actions");
-import TodoPlugins = require("plugins/todos");
 
-import TodoList = require("ui/todoList");
-import NewTodo = require("ui/newTodo");
-import CheckAll = require("ui/checkAll");
-import TodoCount = require("ui/todoCount");
-import UndoButton = require("ui/undoButton");
+import Actions = require("app/actions");
+import TodoPlugins = require("app/plugins/todos");
+
+import TodoList = require("app/ui/todoList");
+import NewTodo = require("app/ui/newTodo");
+import CheckAll = require("app/ui/checkAll");
+import TodoCount = require("app/ui/todoCount");
+import UndoButton = require("app/ui/undoButton");
 
 
 /**
@@ -91,7 +92,7 @@ function createApplication() {
     app.wrap(Actions.ACTIONS.UNCOMPLETE_ALL, new TodoPlugins.UncompleteAll());
 
     // Wrap a plugin for any action.
-    app.wrap(BaseActions.ACTIONS.__ANY__, new Protocol());
+    app.wrap(Fluss.BaseActions.ACTIONS.__ANY__, new Protocol());
     return app;
 }
 

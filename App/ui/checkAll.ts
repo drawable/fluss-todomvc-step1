@@ -9,7 +9,7 @@
 "use strict";
 import React = require("react");
 
-import Actions = require("../actions");
+import Actions = require("app/actions");
 
 import Fluss = require("fluss");
 
@@ -35,7 +35,10 @@ export var CheckAll = React.createClass({
 
     componentDidMount: function() {
         var that = this;
-        this.props.todos.updates.filter(function(update) {
+        console.log("component did mount");
+        this.props.todos.updates
+            .filter(function(update) {
+            console.log("filter");
             return update.item === "completed";
         }).forEach(function() {
             that.forceUpdate();

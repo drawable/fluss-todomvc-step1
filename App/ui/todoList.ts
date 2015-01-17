@@ -10,7 +10,7 @@
 import React = require("react");
 import Fluss = require("fluss");
 
-import Actions = require("../actions");
+import Actions = require("app/actions");
 
 
 

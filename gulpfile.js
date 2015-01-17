@@ -7,16 +7,37 @@
 var gulp = require('gulp');
 var typescript = require('gulp-typescript');
 var sourcemaps = require('gulp-sourcemaps');
+var path = require("path");
+var modify = require("gulp-modify");
 
-gulp.task("compile", function() {
+gulp.task("update-local-fluss", function() {
+    gulp.src(["../fluss/build/**/*.*", "../fluss/build/**/*"])
+        .pipe(gulp.dest("./node_modules/fluss"));
+});
+
+
+gulp.task("compile-tsc", function() {
     var tsResult = gulp.src(["./App/**/*.ts"])
         .pipe(sourcemaps.init())
         .pipe(typescript({
             module: "amd",
-            target: "ES5"
+            target: "ES5",
+            sourceRoot: "."
         }));
-    return tsResult.js
+   return tsResult.js
         .pipe(sourcemaps.write("."))
+        .pipe(gulp.dest("./App"));
+});
+
+gulp.task("compile", ["compile-tsc"], function() {
+    var r = /(.*sources\"\:\[\")([^\"]+\/)([^\/\]\"]+)(.*)/
+
+    return gulp.src("./App/**/*.map")
+        .pipe(modify({
+            fileModifier: function(file, content) {
+                return content.replace(r, "$1$3$4");
+            }
+        }))
         .pipe(gulp.dest("./App"));
 });
 

@@ -8,7 +8,7 @@
 "use strict";
 import React = require("react");
 
-import Actions = require("../actions");
+import Actions = require("app/actions");
 
 export var NewTodo = React.createClass({
 
